@@ -3,6 +3,7 @@ package com.winter.app.qna;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -83,6 +84,18 @@ class QnaControllerTest {
 	
 	@Test
 	public void getAddTest() throws Exception{
+		mockMvc.perform
+		
+		(
+		post("/qna/add")
+		.param("boardWriter", "ww")
+		.param("boardTitle", "tt")
+		.param("boardContents","cc")
+
+		)
+		.andDo(print())
+;
+		
 		
 	}
 }
