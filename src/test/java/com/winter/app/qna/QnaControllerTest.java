@@ -95,7 +95,7 @@ class QnaControllerTest {
 		)
 		.andDo(print())
 ;
-		
+		//실행 후 DB보면 제대로 들어가 있는 것을 확인 가능!
 		
 	}
 }
