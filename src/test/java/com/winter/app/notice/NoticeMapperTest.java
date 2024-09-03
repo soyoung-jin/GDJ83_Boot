@@ -18,7 +18,7 @@ class NoticeMapperTest {
 
 	@Test
 	void getListTest() throws Exception {
-		List<NoticeVO> ar = noticeMapper.getList();
+		List<NoticeVO> ar = noticeMapper.getList(1L);
 		assertNotEquals(0, ar.size());
 		for(NoticeVO noticeVO: ar) {
 			System.out.println(noticeVO.toString());
