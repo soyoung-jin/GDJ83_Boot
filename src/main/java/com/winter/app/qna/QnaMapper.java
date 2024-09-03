@@ -13,4 +13,9 @@ public interface QnaMapper {
 	
 	//추가
 	public int add(QnaVO qnaVO) throws Exception;
+	
+	public int refUpdate(QnaVO qnaVO) throws Exception;
+	
+	//디테일
+	public QnaVO getDetail(QnaVO qnaVO) throws Exception;
 }

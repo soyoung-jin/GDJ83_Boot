@@ -27,9 +27,10 @@
 					<th>${vo.boardWriter}</th>
 					<th>${vo.createDate}</th>
 				</tr>
-		
 			</c:forEach>
 		</tbody>
 	</table>
+	
+	<a href="/qna/add">추가</a>
 </body>
 </html>

@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
+  <!--조회.-->
   <mapper namespace="com.winter.app.qna.QnaMapper">
   	<select id="getList" resultType="QnaVO" parameterType="Pager">
   		SELECT
@@ -26,20 +27,48 @@
   
   	</select>
   	
-  	<insert id="add" parameterType="QnaVO">
+  	<!--추가-->
+  	
+  	<insert id="add" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="boardNum">
+  	
+	  	<!--  <selectKey order="BEFORE" keyProperty="boardNum" resultType="Long">
+	  		SELECT seq.nextval from dual
+	  	</selectKey> -->
+  	
+	  	<!--컬럼명을 안쓸거면 db에 있는 순서 그대로 값을 넣어주어야 한다.-->
   		INSERT INTO
   			QNA
   		VALUES
   			(#{boardNum}
-  			,#{boardContents}
-  			,#{boardTitle}
   			,#{boardWriter}
+  			,#{boardTitle}
+  			,#{boardContents}
   			,now()
   			,#{ref}
   			,#{step}
-  			,#{depth}  			
-  			)
+  			,#{depth})
   	</insert>
+  	
+  	<update id="refUpdate" parameterType="QnaVO">
+  		UPDATE
+  			QNA
+  		SET
+  			REF=#{boardNum}
+  		WHERE
+  			BOARD_NUM=#{boardNum}
+  	</update>
+  	
+  	<!-- detail -->
+  	<!-- 파라미터타입이 boardnum의 Long으로 해도 됨 -->
+  	<select id="getDetail" parameterType="QnaVO" resultType="QnaVO">
+  		SELECT
+  			*
+  		FROM
+  			QNA
+  		WHERE
+  			BOARD_NUM=#{boardNum}
+ 
+  	</select>
   	
   
   </mapper>

@@ -17,6 +17,15 @@ class QnaMapperTest {
 	QnaMapper qnaMapper;
 	
 	@Test
+	void getDetailTest() throws Exception{
+		QnaVO qnaVO = new QnaVO();
+		qnaVO.setBoardNum(110L);
+		qnaVO= qnaMapper.getDetail(qnaVO);
+		
+		assertNotNull(qnaVO);
+	}
+	
+	@Test
 	void addTest() throws Exception{
 		//여러개의 글 추가헤주는 반복문
 //		for(int i=4; i<110; i++) {
