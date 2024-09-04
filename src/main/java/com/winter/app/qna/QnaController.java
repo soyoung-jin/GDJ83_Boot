@@ -50,6 +50,7 @@ public class QnaController {
 	}
 	
 	@PostMapping("add")
+	//파일의 모든 정보들이 담겨져 있음(폴더, 확장자 등등)
 	public String add(QnaVO qnaVO, MultipartFile [] attaches) throws Exception{
 		qnaService.add(qnaVO, attaches);
 		

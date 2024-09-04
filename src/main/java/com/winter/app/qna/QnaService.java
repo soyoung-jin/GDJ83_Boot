@@ -45,12 +45,12 @@ public class QnaService {
 	}
 	
 	//qnaVo에 있는 정보 가져와야 하니까 파라미터 줌
-	public void add(QnaVO qnaVO, MultipartFile[] attaches) throws Exception{
+	public int add(QnaVO qnaVO, MultipartFile[] attaches) throws Exception{
 		log.info("======== Before After BoardNum: {}", qnaVO.getBoardNum());
-//		int result = qnaMapper.add(qnaVO);
+		int result = qnaMapper.add(qnaVO);
 		log.info("======== Insert After BoardNum: {}", qnaVO.getBoardNum());
 		//ref값에 boardNum을 넣기 위해 update를 침
-//		result = qnaMapper.refUpdate(qnaVO);
+		result = qnaMapper.refUpdate(qnaVO);
 		
 		//파일을 하드디스크에 저장하고 DB에 정보를 insert하는 작업이 필요
 		//경로를 보내주려함 filSave로 경로가 옴
@@ -60,13 +60,23 @@ public class QnaService {
 			if(mf == null || mf.isEmpty()) {
 				continue;
 			}
-			String fileName= fileManager.fileSave(upload+name, mf); //D:upload/qna 이렇게 경로 보내주게 됨 
-			log.info("저장된 파일명: {}", fileName);
 			
+			//파일 저장, 저장된 파일명을 담아줌
+			String fileName= fileManager.fileSave(upload+name, mf); //D:upload/qna 이렇게 경로 보내주게 됨 
+//			log.info("저장된 파일명: {}", fileName);
+
+			//저장된 파일명으로 QnaFile에 넣어줌
+			QnaFileVO qnaFileVO = new QnaFileVO();
+			
+			//내가 저장하려는 파일의 정보를 qnaFile을 이용하여 set
+			qnaFileVO.setFileName(fileName); //UDDI 사용한 파일 이름
+			qnaFileVO.setOriName(mf.getOriginalFilename()); //원래 파일명
+			qnaFileVO.setBoardNum(qnaVO.getBoardNum()); //어떤 게시글 번호에 올렸던 파일인지
+			
+			//qnaFile에 set 한 내용을 DB에 저장
+			result = qnaMapper.addFile(qnaFileVO);
 		}
-		
-//		
-//		return result;
+		return result;
 	}
 	
 	//detail

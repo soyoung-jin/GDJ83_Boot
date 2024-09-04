@@ -26,7 +26,9 @@ public class FileManager {
 		String fileName = UUID.randomUUID().toString()+"_"+multipartFile.getOriginalFilename();
 		
 		//파일을 하드디스크에 저장
+		//이 경로에(File(path)) 이 파일명의 정보를 담으려고 함
 		file = new File(file, fileName);
+		//요청에 의해 전송된 파일을 위에서 담았고, 그걸 이제 저장해줌
 		multipartFile.transferTo(file);
 
 		//저장된 파일명 리턴
