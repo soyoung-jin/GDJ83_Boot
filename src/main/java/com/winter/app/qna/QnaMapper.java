@@ -21,4 +21,7 @@ public interface QnaMapper {
 	
 	//파일추가
 	public int addFile(QnaFileVO qnaFileVO) throws Exception;
+	
+	//파일 다운
+	public QnaFileVO getFileDetail(QnaFileVO qnaFileVO) throws Exception;
 }

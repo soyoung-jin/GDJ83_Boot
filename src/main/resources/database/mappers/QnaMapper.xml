@@ -81,6 +81,7 @@
   		WHERE
   			Q.BOARD_NUM=#{boardNum}
   	</select>
+  	<!-- 기준이 되는 메인 select테이블 -->
   	<resultMap type="QnaVO" id="getDetailResult">
   		<id property="boardNum" column="BOARD_NUM"></id>
   		<result property="boardTitle" column="BOARD_TITLE"/>
@@ -91,6 +92,7 @@
   		<result property="step" column="STEP"/>
   		<result property="depth" column="DEPTH"/>
   		
+  		<!-- 조인할 테이블 N의 위치에 있는 테이블 -->
   		<collection property="ar" javaType="java.util.List" ofType="QnaFileVO">
   			<id property="boardNum" column="BOARD_NUM"></id>
   			<result property="fileNum" column="FILE_NUM"></result>
@@ -112,4 +114,15 @@
   				,#{oriName}
   				,#{boardNum})
   	</insert>
+  	
+  	<select id="getFileDetail" parameterType="QnaFileVO" resultType="QnaFileVO">
+  	
+  		SELECT 
+  			* 
+  		FROM 
+  			QNAFILES 
+  		WHERE 
+  			FILE_NUM=#{fileNum}
+  	
+  	</select>
   </mapper>

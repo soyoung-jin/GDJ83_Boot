@@ -15,7 +15,9 @@
 	<h3>${qnaDetail.boardContents}</h3>
 	
 	<c:forEach items="${qnaDetail.ar}" var="f">
-		<img src="/files/${board}/${f.fileName}">
+		<img src="/files/${board}/${f.fileName}">]
+		<a href="./fileDown?fileNum=${f.fileNum}">${f.oriName}</a>
+		<!--파일을 찾아서 stream으로 연결하려고 함, 실제 올린 파일의 이름을 보여주려 함  -->
 		
 	
 	</c:forEach>

@@ -30,11 +30,12 @@ public class QnaController {
 	@Value("${board.qna}")
 	private String board;
 
-	@ModelAttribute("board") //board이름이 qna가 된다. 프로퍼티스 파일의 내용이 바뀌면 얘도 바뀜
+	@ModelAttribute("board") //board이름이 qna가 된다. 프로퍼티스 파일의 내용이 바뀌면 얘도 바뀜 // board.qna=qna
 	public String getboard() {
 		return this.board;
 	}
 	
+	//리스트 조회
 	@GetMapping("list")
 	public void getList(Pager pager, Model model) throws Exception {
 		List<QnaVO> ar = qnaService.getList(pager);
@@ -44,6 +45,7 @@ public class QnaController {
 		log.info("Pager:{} :{}", pager,pager.getKind());
 	}
 	
+	//글 추가
 	@GetMapping("add")
 	public void add() throws Exception{
 		
@@ -63,6 +65,17 @@ public class QnaController {
 		qnaVO = qnaService.getDetail(qnaVO);
 		model.addAttribute("qnaDetail",qnaVO);
 		
+	}
+	
+	//파일 다운
+	@GetMapping("fileDown")
+	public String fileDown(QnaFileVO qnaFileVO, Model model) throws Exception{
+		//하나의 fileVO에 모아서 상속받아서 사용하기 --프로젝트 때
+		qnaFileVO= qnaService.getFileDetail(qnaFileVO);
+		model.addAttribute("fileDown",qnaFileVO);
+		//view의 이름은 void라서 url의 주소가 view의 이름이 됨, qna/fileDown이 주소가 됨, jsp를 찾으러 가는게 일반적임
+		//그래서 리턴을 fileDownView라고 바꿈, 빈의 이름이 fileDownView라는 것을 찾아가서 실행하겠다는 것
+		return "fileDownView";
 	}
 	
 }

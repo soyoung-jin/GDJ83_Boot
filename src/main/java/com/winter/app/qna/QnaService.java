@@ -83,4 +83,9 @@ public class QnaService {
 	public QnaVO getDetail(QnaVO qnaVO) throws Exception{
 		return qnaMapper.getDetail(qnaVO);
 	}
+	
+	//파일 다운
+	public QnaFileVO getFileDetail(QnaFileVO qnaFileVO) throws Exception{
+		return qnaMapper.getFileDetail(qnaFileVO);
+	}
 }
