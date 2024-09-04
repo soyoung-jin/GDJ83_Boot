@@ -23,6 +23,7 @@ public class FileDownView extends AbstractView {
 	private String path; //upload까지의 경로, D:/upload/... ...은 board에서 꺼낸 값 directory에 있음
 
 	@Override
+	//모든 컨트롤러에서 응답나갈때 리턴하는 것 : ModelAndView이다. 매개변수를 그래서 그 중 model을 쓰는 것
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
