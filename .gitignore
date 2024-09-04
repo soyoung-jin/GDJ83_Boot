@@ -1,6 +1,7 @@
 ###custom mariadb properties
 application-db.properties
-
+application2-dev.properties
+application-prod.properties
 
 HELP.md
 target/
@@ -35,3 +36,4 @@ build/
 
 ### VS Code ###
 .vscode/
+src/main/resources/application2-dev.properties
