@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!--조회.-->
+  <mapper namespace="com.winter.app.members.MemberMapper">
+  	<!--회원가입-->
+  	<insert id="add" parameterType="MemberVO">
+  		INSERT INTO
+  			MEMBERS
+  		VALUES
+  			(#{username}
+  			,#{password}
+  			,#{name}
+  			,#{email}
+  			,#{birth}
+  			,1)
+  	</insert>
+  	
+  	<!--회원 조회, 로그인 시 사용-->
+  	<select id="detail" parameterType="MemberVO" resultMap="MemberRoleResult">
+  		SELECT
+  			*
+  		FROM
+  			MEMBERS M
+  		INNER JOIN 
+  			MEMBER_ROLE MR
+  		ON
+  			M.USERNAME=MR.USERNAME
+  		INNER JOIN
+  			ROLE R
+  		ON 
+  			MR.ROLE_NUM=R.ROLE_NUM
+  		WHERE
+  			M.USERNAME=#{username}
+  		<!--패스워드 검증은 서비스에서 할 예정-->
+  	</select>
+  	
+  	<resultMap type="MemberVO" id="MemberRoleResult">
+  		<id property="username" column="USERNAME"></id>
+	  		<result property="password" column="PASSWORD"/>
+	  		<result property="name" column="NAME"/>
+	  		<result property="email" column="EMAIL"/>
+	  		<result property="birth" column="BIRTH"/>
+	  		<result property="enabled" column="ENABLED"/>	
+  		
+  		<collection property="vos" javaType="java.util.List" ofType="RoleVO">
+  			<id property="roleNum" column="ROLE_NUM"></id>
+  			<result property="roleName" column="ROLE_NAME"/>
+  		</collection>
+  	</resultMap>
+  	
+  	<!--권한 주기-->
+  	<insert id="addRole" parameterType="java.util.Map">
+  		INSERT INTO
+  			MEMBER_ROLE
+  		VALUES
+  			(#{username}
+  			,#{roleNum})
+  	</insert>
+  	
+  </mapper>
