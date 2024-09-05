@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.util.FileManager;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional(rollbackFor = Exception.class)
 public class QnaService {
 	@Autowired
 	private QnaMapper qnaMapper;
@@ -52,7 +54,7 @@ public class QnaService {
 		//ref값에 boardNum을 넣기 위해 update를 침
 		result = qnaMapper.refUpdate(qnaVO);
 		
-		
+		//트랜잭션 처리할라고 추가해줌
 		if(result == 1) {
 			//result가 1이면 예외 발생
 			throw new Exception();

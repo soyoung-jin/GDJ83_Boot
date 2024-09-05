@@ -12,6 +12,6 @@ public class Transaction {
 	//롤백시켜주는 애들 누구로 할건지 결정함
 	@AfterThrowing("execution(* com.winter.app.*.*.set*(..))")
 	public void rollBack() {
-		
+	
 	}
 }

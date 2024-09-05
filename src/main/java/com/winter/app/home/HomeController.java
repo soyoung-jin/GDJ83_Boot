@@ -24,6 +24,7 @@ public class HomeController {
 //		log.warn("warn"); //문제가 있을 경우에 경고 로그 찍어줌
 //		log.error("error"); //에러가 발생했을 경우 로그 찍어줌
 		
+	
 		start.go();
 		
 		return "index";
