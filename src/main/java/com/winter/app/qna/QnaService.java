@@ -52,6 +52,12 @@ public class QnaService {
 		//ref값에 boardNum을 넣기 위해 update를 침
 		result = qnaMapper.refUpdate(qnaVO);
 		
+		
+		if(result == 1) {
+			//result가 1이면 예외 발생
+			throw new Exception();
+		}
+		
 		//파일을 하드디스크에 저장하고 DB에 정보를 insert하는 작업이 필요
 		//경로를 보내주려함 filSave로 경로가 옴
 		

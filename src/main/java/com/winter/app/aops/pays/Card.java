@@ -20,6 +20,7 @@ public class Card {
 	public Object cardCheck(ProceedingJoinPoint joinPoint) throws Throwable { //핵심로직(메서드)를 객체로 만들어서 넣어준 proceeding
 		log.info("==== Before 카드 찍기 ====");
 		
+		//매개변수로 넘어온 파라미터들의 목록 값을 구해준다.
 		log.info("=== ARGS ===: {}", joinPoint.getArgs());
 		
 		//이 사이에 bus와 subway 메서드가 들어와야함 >> proxy 개념
