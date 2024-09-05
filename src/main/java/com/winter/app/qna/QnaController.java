@@ -76,6 +76,11 @@ public class QnaController {
 		//view의 이름은 void라서 url의 주소가 view의 이름이 됨, qna/fileDown이 주소가 됨, jsp를 찾으러 가는게 일반적임
 		//그래서 리턴을 fileDownView라고 바꿈, 빈의 이름이 fileDownView라는 것을 찾아가서 실행하겠다는 것
 		return "fileDownView";
+		//return "qnaService"; 
+		//이렇게 return값을 바꾸면 포워드 방식임. 
+		//1. 이렇게 생긴 빈의 이름을 찾으러 간다. 있지만 실행 안된다. view로 사용하고 싶으면 spring이 얘가 view라는 것을 알아야 하는데, 
+		//이는 rendermergedOutputModel이 담당한다. 이 메서드를 먼저 찾아가기 때문에 AbstractView를 상속받아야 한다. 
+		//FileDownView 클래스는 abstractView를 상속받았기 때문에 spring이 view로 인식할 수 있는 것이다.
 	}
 	
 }

@@ -16,7 +16,7 @@ import com.winter.app.qna.QnaFileVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@Component
+@Component//BeanNameViewResolver(bean의 이름을 view(Jsp)로 사용한다.
 public class FileDownView extends AbstractView {
 	
 	@Value("${app.upload}")

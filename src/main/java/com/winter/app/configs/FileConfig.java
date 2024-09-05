@@ -13,10 +13,10 @@ public class FileConfig implements WebMvcConfigurer {
 	//file라고 시작하는 url이 오면 D:upload(file)를 찾아가게끔 함
 	
 	//이 두개의 변수를 아래 핸들러랑 매핑시켜주려고 함
-	@Value("${app.url.path}")
+	@Value("${app.url.path}") //app.url.path=/files/**
 	private String url;
 	
-	@Value("${app.upload.location}")
+	@Value("${app.upload.location}")//app.upload.location=file:///D:/upload/
 	private String file;
 	
 	@Override
