@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class AdminCheckInterceptor implements HandlerInterceptor {
 	
-	//관리자 권한이 있는 애들만 통과시키자. 권한이 있는 건 vos에서 rolName이 Admin인 친구들 
+	//관리자 권한이 있는 애들만 통과시키자. 권한이 있는 건 vos에서 roleName이 Admin인 친구들 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -35,7 +35,7 @@ public class AdminCheckInterceptor implements HandlerInterceptor {
 		
 		request.setAttribute("msg", "관리자 전용");
 		request.setAttribute("path", "/");
-		//포워드 방식으로 jsp로 가보자
+		//포워드 방식으로 jsp로 가게 하는 방법
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/commons/result.jsp");
 		view.forward(request, response);
 	

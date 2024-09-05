@@ -29,9 +29,9 @@ public class InterceptorConfig implements WebMvcConfigurer{
 				//어떤 url이 왔을 때
 //				addPathPatterns("/qna/list")
 				//qna로 시작하는 모든 것들은 인터셉터 거쳐라
-				.addPathPatterns("/qna/*")
+				.addPathPatterns("/qna/*");
 				//qna/list는 로그인 안해도 볼수있다.
-				.excludePathPatterns("/qna/list");
+//				.excludePathPatterns("/qna/list");
 		
 		//로그인 한 애들 중에 관리자 권한이 있는 애들만 통과시키자.
 		registry.addInterceptor(adminCheckInterceptor)
