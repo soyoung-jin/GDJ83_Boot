@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.util.FileManager;
@@ -45,7 +44,6 @@ public class QnaService {
 		return qnaMapper.getList(pager);
 	}
 	
-	//@Transactional(rollbackFor = Exception.class) //이 메서드가 실행 후 Exception이 발생하면 rollback 트랜젝션이 처리될 메서드임을 알려주는 어노테이션
 	//qnaVo에 있는 정보 가져와야 하니까 파라미터 줌
 	public int add(QnaVO qnaVO, MultipartFile[] attaches) throws Exception{
 		log.info("======== Before After BoardNum: {}", qnaVO.getBoardNum());
@@ -54,7 +52,9 @@ public class QnaService {
 		//ref값에 boardNum을 넣기 위해 update를 침
 		result = qnaMapper.refUpdate(qnaVO);
 		
+		
 		if(result == 1) {
+			//result가 1이면 예외 발생
 			throw new Exception();
 		}
 		
