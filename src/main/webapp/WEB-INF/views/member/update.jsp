@@ -28,25 +28,6 @@
 				  			<form:errors path="username"></form:errors>
 				  		</div>
 				  	</div>
-				  	<!--비밀번호-->
-				  	<div class="mb-3">
-				    	<label for="password" class="form-label">Password</label>
-				    	<!-- <input type="password" class="form-control" id="password" name="password"> -->
-				    	<form:password cssClass="form-control" id="password" path="password"></form:password>
-					  	<div>
-					  		<form:errors path="username"></form:errors>
-					  	</div>
-				  	</div>
-				 	<!--비밀번호 확인-->
-				 	<!--비밀번호 확인은 멤버변수에 없음, 그래서 error뜸-->
-				  	<div class="mb-3">
-				    	<label for="passwordCheck" class="form-label">Password</label>
-				    	<!-- <input type="password" class="form-control" id="passwordCheck" name="passwordCheck"> -->
-				  		<form:password cssClass="form-control" id="passwordCheck" path="passwordCheck"></form:password>
-					  	<div>
-					  		<form:errors path="passwordCheck"></form:errors>
-					  	</div>
-				  	</div>
 				  	<!--이름-->
 				  	<div class="mb-3">
 				    	<label for="name" class="form-label">NAME</label>

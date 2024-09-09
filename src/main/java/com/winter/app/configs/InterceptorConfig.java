@@ -30,11 +30,11 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		//qna의 list를 로그인 한 사용자만 보게 하고 싶게 함 >> /qna/list url 오면 LoginInterceptor를 거치게 하자는 것
 		
 		//인터셉트 등록
-		registry.addInterceptor(loginInterceptor)
+		//registry.addInterceptor(loginInterceptor)
 				//어떤 url이 왔을 때
 //				addPathPatterns("/qna/list")
 				//qna로 시작하는 모든 것들은 인터셉터 거쳐라
-				.addPathPatterns("/qna/*");
+				//.addPathPatterns("/qna/*");
 				//qna/list는 로그인 안해도 볼수있다.
 //				.excludePathPatterns("/qna/list");
 		

@@ -34,6 +34,7 @@ public class MessageConfig implements WebMvcConfigurer{
 //		cResolver.setCookieName("lang");//deprecated
 	}
 	
+	//Message Interceptor 객체 생성
 	@Bean
 	public LocaleChangeInterceptor changeInterceptor() {
 		LocaleChangeInterceptor changeInterceptor = new LocaleChangeInterceptor();

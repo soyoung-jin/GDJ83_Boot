@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.util.Pager;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,13 +49,20 @@ public class QnaController {
 	
 	//글 추가
 	@GetMapping("add")
-	public void add() throws Exception{
+	public void add(QnaVO qnaVO) throws Exception{
 		
 	}
 	
 	@PostMapping("add")
+	//객체를 만들어서 넘어오는 파라미터 값들을 QnaVO에 넣어준다.
 	//파일의 모든 정보들이 담겨져 있음(폴더, 확장자 등등)
-	public String add(QnaVO qnaVO, MultipartFile [] attaches) throws Exception{
+	//검증 결과를 bindingresult에 저장한다. 선언 순서를 반드시 지켜준다, valid 다음에 result
+	public String add(@Valid QnaVO qnaVO, BindingResult bindingResult, MultipartFile[] attaches) throws Exception{
+		//에러가 발생하면 qna/add 페이지로 다시 이동하도록 설정
+		if(bindingResult.hasErrors()) {
+			log.error("writer가 비어있음");
+			return "qna/add";
+		}
 		qnaService.add(qnaVO, attaches);
 		
 		return "redirect:./list";
