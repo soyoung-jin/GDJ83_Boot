@@ -60,4 +60,14 @@
   			,#{roleNum})
   	</insert>
   	
+  	
+  	<!--비밀번호 변경 -->
+  	<update id="pwUpdate" parameterType="MemberVO">
+  		UPDATE
+  			MEMBERS
+  		SET
+  			PASSWORD=#{password}
+  		WHERE
+  			username=#{username}
+  	</update>
   </mapper>

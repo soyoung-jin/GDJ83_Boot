@@ -4,17 +4,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService{
 
 	@Autowired
 	MemberMapper memberMapper;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		MemberVO memberVO = new MemberVO();
+		memberVO.setUsername(username);
+		try {
+			//새로 받은 memberVO를 새로 받아줘야 한다.
+			memberVO =memberMapper.detail(memberVO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//memverVO가 userDetail 타입임 그래서 return
+		return memberVO;
+	}
+	
 	//회원가입
 	public int add(MemberVO memberVO) throws Exception{
+		//인코딩해서 DB에 넣어준다.
+		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
+		
 		int result = memberMapper.add(memberVO);
 		
 		//회원가입 하면서 권한 추가

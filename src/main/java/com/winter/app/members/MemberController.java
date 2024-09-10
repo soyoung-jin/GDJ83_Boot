@@ -52,25 +52,25 @@ public class MemberController {
 		//if문으로 등록 성공 실패 잡아주면 됨
 		return "redirect:../";
 	}
-	
+
 	//detail(login)
 	@GetMapping("login")
 	public void login() throws Exception{
 		
 	}
-	
-	@PostMapping("login")
-	public String login(MemberVO memberVO, HttpSession httpSession) throws Exception{
-		memberVO = memberService.detail(memberVO);
-		//if문으로 로그인 성공 실패 잡아주면 됨
-		
-		if(memberVO != null) {
-			httpSession.setAttribute("member", memberVO);
-		}
-		
-		return "redirect:../";
-	}
-	
+//	security에서 처리해서 주석처리	
+//	@PostMapping("login")
+//	public String login(MemberVO memberVO, HttpSession httpSession) throws Exception{
+//		memberVO = memberService.detail(memberVO);
+//		//if문으로 로그인 성공 실패 잡아주면 됨
+//		
+//		if(memberVO != null) {
+//			httpSession.setAttribute("member", memberVO);
+//		}
+//		
+//		return "redirect:../";
+//	}
+//	
 	//logout
 	@GetMapping("logout")
 	public String logout(HttpSession httpSession) throws Exception{

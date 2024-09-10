@@ -62,27 +62,28 @@ public class QnaService {
 		
 		//파일을 하드디스크에 저장하고 DB에 정보를 insert하는 작업이 필요
 		//경로를 보내주려함 filSave로 경로가 옴
-		
-		for(MultipartFile mf: attaches) {
-			//파일을 올리지 않을 수도 있기 때문에
-			if(mf == null || mf.isEmpty()) {
-				continue;
+		if(attaches != null) {
+			for(MultipartFile mf: attaches) {
+				//파일을 올리지 않을 수도 있기 때문에
+				if(mf == null || mf.isEmpty()) {
+					continue;
+				}
+				
+				//파일 저장, 저장된 파일명을 담아줌
+				String fileName= fileManager.fileSave(upload+name, mf); //D:upload/qna 이렇게 경로 보내주게 됨 
+	//			log.info("저장된 파일명: {}", fileName);
+	
+				//저장된 파일명으로 QnaFile에 넣어줌
+				QnaFileVO qnaFileVO = new QnaFileVO();
+				
+				//내가 저장하려는 파일의 정보를 qnaFile을 이용하여 set
+				qnaFileVO.setFileName(fileName); //UDDI 사용한 파일 이름
+				qnaFileVO.setOriName(mf.getOriginalFilename()); //원래 파일명
+				qnaFileVO.setBoardNum(qnaVO.getBoardNum()); //어떤 게시글 번호에 올렸던 파일인지
+				
+				//qnaFile에 set 한 내용을 DB에 저장
+				result = qnaMapper.addFile(qnaFileVO);
 			}
-			
-			//파일 저장, 저장된 파일명을 담아줌
-			String fileName= fileManager.fileSave(upload+name, mf); //D:upload/qna 이렇게 경로 보내주게 됨 
-//			log.info("저장된 파일명: {}", fileName);
-
-			//저장된 파일명으로 QnaFile에 넣어줌
-			QnaFileVO qnaFileVO = new QnaFileVO();
-			
-			//내가 저장하려는 파일의 정보를 qnaFile을 이용하여 set
-			qnaFileVO.setFileName(fileName); //UDDI 사용한 파일 이름
-			qnaFileVO.setOriName(mf.getOriginalFilename()); //원래 파일명
-			qnaFileVO.setBoardNum(qnaVO.getBoardNum()); //어떤 게시글 번호에 올렸던 파일인지
-			
-			//qnaFile에 set 한 내용을 DB에 저장
-			result = qnaMapper.addFile(qnaFileVO);
 		}
 		return result;
 	}
