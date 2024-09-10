@@ -87,10 +87,10 @@ public class SecurityConfig {
 	}
 	
 	//비밀번호 인코딩
+	//평문을 암호화 시켜주는 메서드
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-		
 	}
 
 }
