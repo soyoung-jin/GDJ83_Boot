@@ -1,21 +1,26 @@
 package com.winter.app.members;
 
+import java.util.Enumeration;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.winter.app.validate.MemberAddGroup;
 import com.winter.app.validate.MemberUpdateGroup;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
@@ -39,15 +44,15 @@ public class MemberController {
 		//비밀번호가 일치하지 않을 시
 		boolean check = memberService.getMemberError(memberVO, bindingResult);
 		//에러가 발생하면 member/add 페이지로 다시 이동하도록 설정
-//		if(bindingResult.hasErrors()) {
-//			return "member/add";
-//		}
+		if(bindingResult.hasErrors()) {
+			return "member/add";
+		}
 		
 		if(check) {
 			return "member/add";
 		}
 		
-		//int result = memberService.add(memberVO);
+		int result = memberService.add(memberVO);
 		
 		//if문으로 등록 성공 실패 잡아주면 됨
 		return "redirect:../";
@@ -55,8 +60,10 @@ public class MemberController {
 
 	//detail(login)
 	@GetMapping("login")
-	public void login() throws Exception{
-		
+	public void login(String message, Model model) throws Exception{
+		//로그인 실패 시, 메세지 띄워줌
+		model.addAttribute("message", message);
+
 	}
 //	security에서 처리해서 주석처리	
 //	@PostMapping("login")
@@ -81,8 +88,37 @@ public class MemberController {
 	
 	//마이페이지
 	@GetMapping("mypage")
-	public void mypage() throws Exception{
-		//기존에는 세션에서 꺼내 쓰고
+	public void mypage(HttpSession session) throws Exception{
+		//1. 세션 사용
+		//속성명들을 꺼내준다. 속성명이 몇개 들어있는지 모르면 while문 돌린다.
+		Enumeration<String> en = session.getAttributeNames();
+	
+		while(en.hasMoreElements()) {
+			String name = en.nextElement();
+			log.info("name:: {} ", name); //결과로  name:: SPRING_SECURITY_CONTEXT 나옴
+		}
+		
+		//어떤 타입일지 모르니까 object로 받음
+//		Object object = session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SecurityContext sc =  (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
+//		log.info("object:: {}" , object.getClass()); //object:: class org.springframework.security.core.context.SecurityContextImpls
+		//즉. SecurityContext를 구현함. 위에 형변환 해줌
+		log.info("sc::{}", sc);
+		
+		//2. SecurityContextHolder 사용
+		SecurityContext context = SecurityContextHolder.getContext();
+		log.info("context : {}", context); //SecurityContext sc 로그랑 똑같은 결과가 나옴
+		
+	
+		Authentication authentication =context.getAuthentication();
+		log.info("autehntication >: {}", authentication);
+		
+		//사용자 정보가 담긴 principal
+		//principal의 타입이 memberVO라고 위에 로그에서 찍혔음!
+		MemberVO memberVO = (MemberVO) authentication.getPrincipal();
+		log.info("memberVO: {}", memberVO);
+		log.info("Name: {}", authentication.getName());
+		
 	}
 	
 	//마이페이지 수정

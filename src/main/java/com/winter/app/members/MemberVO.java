@@ -63,6 +63,7 @@ public class MemberVO implements UserDetails {
 	}
 
 	//계정 만료 여부, false면 만료되고 로그인 안됨
+	//false: 사용자 계정의 유효기간이 만료되었습니다.
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
@@ -70,6 +71,7 @@ public class MemberVO implements UserDetails {
 	}
 
 	//계정 잠김 여부, false면 만료되고 로그인 안됨
+	//false: 사용자 계정이 잠겨있습니다.
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
@@ -78,6 +80,7 @@ public class MemberVO implements UserDetails {
 
 	@Override
 	//비밀번호가 만료됐는지 안됐는지 false면 만료, 로그인 안됨
+	//false: 자격 증명 유효 기간이 만료되었습니다.
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
 		return true;
@@ -85,6 +88,7 @@ public class MemberVO implements UserDetails {
 	
 	//계정 활성화 할건지 말건지
 	//enabled 변수 getter메서드 오버라이딩
+	//false: 유효하지 않은 사용자입니다.
 	public boolean isEnabled() {
 		return true;
 	}

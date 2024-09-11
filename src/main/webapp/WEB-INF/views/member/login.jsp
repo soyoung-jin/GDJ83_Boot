@@ -15,6 +15,11 @@
 		<div class="row justify-content-center">
 			<!-- 12칸 중에서 반인 6칸을 차지한다.-->
 			<div class="col-md-6">
+				<!--로그인 실패 시 메세지 -->
+				<div>
+					<%-- ${param.message} --%>
+					${message}
+				</div>
 				<!-- action 안넣어주면 현재위치가 url로 들어간다-->
 				<form method="post">
 				  <div class="mb-3">

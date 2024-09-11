@@ -29,6 +29,7 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		//어떤 url이 왔을 때 어떤 interceptor를 실행할 것인가를 설정해준다.
 		//qna의 list를 로그인 한 사용자만 보게 하고 싶게 함 >> /qna/list url 오면 LoginInterceptor를 거치게 하자는 것
 		
+		//security에서 처리하니까 주석처리함
 		//인터셉트 등록
 		//registry.addInterceptor(loginInterceptor)
 				//어떤 url이 왔을 때

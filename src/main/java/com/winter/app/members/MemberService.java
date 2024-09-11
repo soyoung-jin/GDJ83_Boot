@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 @Service
-public class MemberService implements UserDetailsService{
+public class MemberService{
 
 	@Autowired
 	MemberMapper memberMapper;
@@ -20,20 +20,21 @@ public class MemberService implements UserDetailsService{
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		MemberVO memberVO = new MemberVO();
-		memberVO.setUsername(username);
-		try {
-			//새로 받은 memberVO를 새로 받아줘야 한다.
-			memberVO =memberMapper.detail(memberVO);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//memverVO가 userDetail 타입임 그래서 return
-		return memberVO;
-	}
+	//MemberuserService 클래스로 옮김
+//	@Override
+//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//		MemberVO memberVO = new MemberVO();
+//		memberVO.setUsername(username);
+//		try {
+//			//새로 받은 memberVO를 새로 받아줘야 한다.
+//			memberVO =memberMapper.detail(memberVO);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		//memverVO가 userDetail 타입임 그래서 return
+//		return memberVO;
+//	}
 	
 	//회원가입
 	public int add(MemberVO memberVO) throws Exception{

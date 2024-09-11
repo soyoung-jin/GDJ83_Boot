@@ -1,5 +1,8 @@
 package com.winter.app.configs.security;
 
+import java.net.URLEncoder;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,12 +11,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 //설정파일임을 명시하는 어노테이션
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+	
+	@Autowired
+	private SecurityLoginSuccessHandler securityLoginSuccessHandler; 
+	
+	@Autowired
+	private SecurityLoginFailHandler securityLoginFailHandler;
+	
 	
 	@Bean
 	WebSecurityCustomizer webSecurityCustomizer() throws Exception{
@@ -29,16 +40,16 @@ public class SecurityConfig {
 						.requestMatchers("/vendor/**")
 						.requestMatchers("favicon/**");
 	}
-
-	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+		//로그인 실패시 메세지 인코딩
+		String message = URLEncoder.encode("로그인 실패", "UTF-8");
 		httpSecurity
 					//cors:
 					.cors()
 					.and()
 					//csrf: 컨트롤러 입장에서 요청이 들어오면 url로 들어감. 컨트롤러는 이 url이 어디서 오는지 알 수 있을까? 없음.
-					//insert할때 우리가 발행한 페이지인지 확인하기 위해서 비번,아이디를 확인해서 우리가 발행한 것이 아니면 막아줌
+					//insert할때 우리 가 발행한 페이지인지 확인하기 위해서 비번,아이디를 확인해서 우리가 발행한 것이 아니면 막아줌
 					.csrf()
 					.disable();
 		//권한에 관련된 설정
@@ -66,12 +77,17 @@ public class SecurityConfig {
 					.formLogin(
 							login ->
 								login
-									//로그인 폼을 우리가 만든 폼으로 쓰려는 것, 그 url를 적어준다.
+									//로그인 폼을 개발자가 만든 폼으로 쓰려는 것, 그 url를 적어준다.
 									.loginPage("/member/login")
 									//로그인 성공 시 어디로 보낼지 설정
-									.defaultSuccessUrl("/")
-									//로그인 실패 시
-									.failureUrl("/member/login")
+									//.defaultSuccessUrl("/")
+									//추가적인 작업 하고 싶을 때
+									.successHandler(securityLoginSuccessHandler)
+									
+									//로그인 실패 시 메세지 둘중 하나 사용
+									//.failureUrl("/member/login?message=" + message)
+									.failureHandler(securityLoginFailHandler)
+									
 									//로그인 진행을 security가 하는데, login 진행하려면 id,pw 필요, 이 파라미터를 서버로 보냄
 									//그래서 파라미터 이름을 정해준다. 기본이 username인데, 다른 이름(id)으로 파라미터 만들면, 명시해라 이거임
 									//우리는 파라미터 이름을 username이라고 해서 주석처리
@@ -80,6 +96,20 @@ public class SecurityConfig {
 									//우리는 password로 해놔서 주석처리
 									//.passwordParameter("pw")
 									.permitAll()
+							)
+					//로그아웃 관련 설정
+					.logout(
+							logout ->
+								logout
+									//로그아웃은 자동으로 되는데, 로그아웃 시 어디로 갈지 정해주자
+									.logoutUrl("/member/logout") //= RequestMatcher("url")
+									//얘도 로그아웃 url 경로 지정, 둘 중 하나 쓰면 된다.
+									//.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+									//로그아웃 성공 시 어디로 갈건지
+									.logoutSuccessUrl("/")
+									.invalidateHttpSession(true)
+									//.deleteCookies(null) 쿠키 삭제하고 싶을 때, 쿠키의 이름을 괄호안에 적어주면 됨
+									
 							)
 		
 		;
