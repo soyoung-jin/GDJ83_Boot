@@ -22,19 +22,21 @@
 				</div>
 				<!-- action 안넣어주면 현재위치가 url로 들어간다-->
 				<form method="post">
-				  <div class="mb-3">
-				    <label for="username" class="form-label">ID</label>
-				    <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp">
-				  </div>
-				  <div class="mb-3">
-				    <label for="password" class="form-label">Password</label>
-				    <input type="password" class="form-control" id="password" name="password">
-				  </div>
-				  <div class="mb-3 form-check">
-				    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-				    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-				  </div>
-				  <button type="submit" class="btn btn-primary">Submit</button>
+					<!--아이디-->
+					<div class="mb-3">
+				    	<label for="username" class="form-label">ID</label>
+				    	<input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp">
+				  	</div>
+				  	<div class="mb-3">
+				    	<label for="password" class="form-label">Password</label>
+				    	<input type="password" class="form-control" id="password" name="password">
+				 	 </div>
+				 	 <!--자동로그인 설정-->
+				  	<div class="mb-3 form-check">
+				    	<input name="rememberMe" type="checkbox" class="form-check-input" id="exampleCheck1">
+				    	<label class="form-check-label" for="exampleCheck1">Check me out</label>
+				 	</div>
+				  	<button type="submit" class="btn btn-primary">Submit</button>
 				</form>
 			</div>
 		</div>

@@ -60,10 +60,26 @@ public class MemberController {
 
 	//detail(login)
 	@GetMapping("login")
-	public void login(String message, Model model) throws Exception{
+	public String login(String message, Model model) throws Exception{
 		//로그인 실패 시, 메세지 띄워줌
 		model.addAttribute("message", message);
+		
+		//로그인 된 상태인지 아닌지 구분, 뒤로가기 눌러도 다시 로그인창으로 가지 않게 해줌
+		SecurityContext context =SecurityContextHolder.getContext();
+		log.info("context::: {}",context);
+		//null - 로그인 안함 - 로그인페이지로 가라
+		if(context == null) {
+			return "member/login";
+		}
+		
+		String user =context.getAuthentication().getPrincipal().toString();
+		log.info("user::: {}",user);
 
+		if(user.equals("anonymousUser")) {
+			return "member/login";
+		}
+		
+		return "redirect:/";
 	}
 //	security에서 처리해서 주석처리	
 //	@PostMapping("login")
