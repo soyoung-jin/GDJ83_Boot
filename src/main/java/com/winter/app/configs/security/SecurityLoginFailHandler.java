@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 import org.eclipse.jdt.internal.compiler.lookup.InferenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -14,6 +15,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
+import com.winter.app.members.MemberMapper;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SecurityLoginFailHandler implements AuthenticationFailureHandler{
 
+	//파라미터가 request에 담겨져 있으니까, request.getparameter로 아이디를 꺼낼 수 있음
+	//다섯번 입력 시 계정 잠김 이런거 할 수 있음.ㄴ
+	@Autowired
+	private MemberMapper memberMapper;
+	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
