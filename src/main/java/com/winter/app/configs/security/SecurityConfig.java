@@ -142,7 +142,11 @@ public class SecurityConfig {
 									.maxSessionsPreventsLogin(false)
 									//세션 만료 시 이동할 페이지
 									.expiredUrl("/member/login")
+									//세션 고정..하려했는데 없어짐
+									
 									)
+					
+									
 		
 		;
 		return httpSecurity.build();
