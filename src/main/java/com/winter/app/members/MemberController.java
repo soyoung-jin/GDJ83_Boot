@@ -75,6 +75,7 @@ public class MemberController {
 		String user =context.getAuthentication().getPrincipal().toString();
 		log.info("user::: {}",user);
 
+		//로그인 안한 사용자 (context가 있긴 하지만, context가 로그인 안하더라도 null이 아닌 상황이 있기 때문에 검증 한번 더해줌)
 		if(user.equals("anonymousUser")) {
 			return "member/login";
 		}
