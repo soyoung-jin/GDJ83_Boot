@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.winter.app.members.MemberUserService;
+
 
 //설정파일임을 명시하는 어노테이션
 @Configuration
@@ -24,6 +26,9 @@ public class SecurityConfig {
 	
 	@Autowired
 	private SecurityLoginFailHandler securityLoginFailHandler;
+	
+	@Autowired
+	private MemberUserService memberUserService;
 	
 	
 	@Bean
@@ -57,19 +62,19 @@ public class SecurityConfig {
 		httpSecurity.authorizeHttpRequests(
 					(authorizeRequest)->
 							authorizeRequest
-										//루트 url이 오면, 누구나 다 들어가야 함 
-										.requestMatchers("/").permitAll()
-										.requestMatchers("/qna/list").permitAll()
-										//로그인 된 사람만 들어오로록 설정
-										.requestMatchers("/qna/*").authenticated()
-										.requestMatchers("/notice/list","/notice/detail").permitAll()
-										//db에서 ROLE_NAME이 ADMIN인 애들만 들어오도록 무조건 ROLE 어쩌고여야함
-										.requestMatchers("/notice/*").hasRole("ADMIN")
-										//권한이 manager도 되고, admin도 되고 둘중 하나 있으면 통과
-										.requestMatchers("/manager/*").hasAnyRole("MANAGER","ADMIN")
-										.requestMatchers("/member/add", "/member/login").permitAll()
-										.requestMatchers("/member/*").authenticated()
-										.anyRequest().permitAll()
+									//루트 url이 오면, 누구나 다 들어가야 함 
+									.requestMatchers("/").permitAll()
+									.requestMatchers("/qna/list").permitAll()
+									//로그인 된 사람만 들어오로록 설정
+									.requestMatchers("/qna/*").authenticated()
+									.requestMatchers("/notice/list","/notice/detail").permitAll()
+									//db에서 ROLE_NAME이 ADMIN인 애들만 들어오도록 무조건 ROLE 어쩌고여야함
+									.requestMatchers("/notice/*").hasRole("ADMIN")
+									//권한이 manager도 되고, admin도 되고 둘중 하나 있으면 통과
+									.requestMatchers("/manager/*").hasAnyRole("MANAGER","ADMIN")
+									.requestMatchers("/member/add", "/member/login").permitAll()
+									.requestMatchers("/member/*").authenticated()
+									.anyRequest().permitAll()
 										
 					)//authorizeRequest 끝
 		
@@ -109,8 +114,35 @@ public class SecurityConfig {
 									.logoutSuccessUrl("/")
 									.invalidateHttpSession(true)
 									//.deleteCookies(null) 쿠키 삭제하고 싶을 때, 쿠키의 이름을 괄호안에 적어주면 됨
-									
 							)
+					//rememberMe
+					.rememberMe(
+							remember ->
+								remember
+									//파라미터 이름을 적어줌(login input 태그에 있음)
+									.rememberMeParameter("rememberMe")
+									//토큰의 유효시간
+									.tokenValiditySeconds(60)
+									//개발자 마음대로 키 세팅, token 생성 시 사용되는 값, 필수값
+									.key("rememberme")
+									//로그인 시, 인증절차(로그인)를 진행할 UserDetailService(컨트롤러로 가는게 아니라 얘를 받음, 로그인을 진행해줌)
+									.userDetailsService(memberUserService)
+									//로그인이 성공할 경우 진행할 핸들러
+									.authenticationSuccessHandler(securityLoginSuccessHandler)
+									//로그인이 실패할 경우 진행할 핸들러
+									.useSecureCookie(false)
+								)
+					//동시 세션(접속) 설정
+					.sessionManagement(
+							sessionManager ->
+								sessionManager
+									//최대 몇개 세션 하용? 0이면 없는거 1이면 한개, -1이면 무제한
+									.maximumSessions(1)
+									//기존 사용자를 인증 실패 할거냐 아니면 로그인 시도자를 실패하게 할거냐? false: 이전(기존)사용자, true:새로운 사용자
+									.maxSessionsPreventsLogin(false)
+									//세션 만료 시 이동할 페이지
+									.expiredUrl("/member/login")
+									)
 		
 		;
 		return httpSecurity.build();
