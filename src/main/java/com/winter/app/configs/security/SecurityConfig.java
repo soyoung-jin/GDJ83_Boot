@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.winter.app.members.MemberUserService;
@@ -29,6 +30,9 @@ public class SecurityConfig {
 	
 	@Autowired
 	private MemberUserService memberUserService;
+	
+	@Autowired
+	private SecurityLogoutSucessHandler securityLogoutSucessHandler;
 	
 	
 	@Bean
@@ -110,9 +114,9 @@ public class SecurityConfig {
 									.logoutUrl("/member/logout") //= RequestMatcher("url")
 									//얘도 로그아웃 url 경로 지정, 둘 중 하나 쓰면 된다.
 									//.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-									.logoutSuccessHandler(null)
+									.logoutSuccessHandler(securityLogoutSucessHandler)
 									//로그아웃 성공 시 어디로 갈건지
-									.logoutSuccessUrl("/")
+									//.logoutSuccessUrl("/")
 									.invalidateHttpSession(true)
 									//.deleteCookies(null) 쿠키 삭제하고 싶을 때, 쿠키의 이름을 괄호안에 적어주면 됨
 							)

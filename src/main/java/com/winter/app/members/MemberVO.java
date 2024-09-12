@@ -57,6 +57,11 @@ public class MemberVO implements UserDetails,OAuth2User {
 		return this.attributes;
 	}
 	
+	//로그아웃관련 토큰 변수
+	private String accessToken;
+	
+	//어떤 소셜 사이트인지 결정 네이버냐 구글이냐 등등
+	private String sns;
 	
 	//비밀번호 확인 변수 추가
 	private String passwordCheck;

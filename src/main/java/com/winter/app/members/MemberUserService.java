@@ -40,7 +40,7 @@ public class MemberUserService extends DefaultOAuth2UserService implements UserD
 		
 		if(sns.equals("kakao")) {
 			//UserRequest 에서 Kakao에 로그인한 사용자의 정보를 담고 있는 OAuth2User를 꺼냄
-			oAuth2User=this.useKakao(oAuth2User);
+			oAuth2User=this.useKakao(userRequest);
 			log.error("erere===============");
 		}
 		
@@ -52,7 +52,9 @@ public class MemberUserService extends DefaultOAuth2UserService implements UserD
 	
 	//카카오, 네이버, 구글은 꺼내와야 하는 항목이 조금씩 다름
 	//카카오라면 얘가 호출됨
-	private OAuth2User useKakao(OAuth2User auth2User) throws OAuth2AuthenticationException{
+	private OAuth2User useKakao(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException{
+		
+		OAuth2User auth2User = super.loadUser(userRequest);
 		log.error("=================================");
 		
 		log.error("ID: {}" , auth2User.getName());//사용자 아이디 3702397147
@@ -60,12 +62,16 @@ public class MemberUserService extends DefaultOAuth2UserService implements UserD
 		//Authorities는 카카오에서 보낸 Authorities임
 		log.error("Authorities: {}" , auth2User.getAuthorities());//[OAUTH2_USER, SCOPE_profile_image, SCOPE_profile_nickname]
 		
-		MemberVO memberVO = new MemberVO();
 		
 		//닉네임, attibutes안에 있었음 map형태임, 꺼내야함
 		Map<String, Object> attribute = auth2User.getAttributes();
 		Map<String, Object> properties = (Map<String, Object>) attribute.get("properties");
 		log.error("properties: {}", properties);
+		
+		MemberVO memberVO = new MemberVO();
+		memberVO.setAccessToken(userRequest.getAccessToken().getTokenValue());
+		memberVO.setSns(userRequest.getClientRegistration().getRegistrationId());
+		memberVO.setAttributes(attribute);
 		
 		//memberVO에 정보넣기
 		//아이디
