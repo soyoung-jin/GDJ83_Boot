@@ -22,6 +22,9 @@
 		</c:if> --%>
 		<sec:authorize access="!isAuthenticated()">
 			<h1>Login 전</h1>
+			<a href="/member/login">Login</a>
+			<!-- URL 주소는 변경 불가, 누르면 카카오 로그인 창 나옴-->
+			<a href="/oauth2/authorization/kakao?prompt=login">KakaoLogin</a>
 		</sec:authorize>
 		
 		<!--로그인 후  -->

@@ -110,6 +110,7 @@ public class SecurityConfig {
 									.logoutUrl("/member/logout") //= RequestMatcher("url")
 									//얘도 로그아웃 url 경로 지정, 둘 중 하나 쓰면 된다.
 									//.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+									.logoutSuccessHandler(null)
 									//로그아웃 성공 시 어디로 갈건지
 									.logoutSuccessUrl("/")
 									.invalidateHttpSession(true)
@@ -145,9 +146,17 @@ public class SecurityConfig {
 									//세션 고정..하려했는데 없어짐
 									
 									)
-					
+					//소셜 로그인 항목
+					.oauth2Login(
+							oauth2 ->
+								oauth2
+									.userInfoEndpoint(
+											user ->
+												user.userService(memberUserService)
+											)
 									
-		
+							)
+
 		;
 		return httpSecurity.build();
 	}

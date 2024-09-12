@@ -4,10 +4,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.winter.app.validate.MemberAddGroup;
 import com.winter.app.validate.MemberUpdateGroup;
@@ -19,7 +21,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class MemberVO implements UserDetails {
+public class MemberVO implements UserDetails,OAuth2User {
 	
 	@NotBlank(groups = {MemberAddGroup.class, MemberUpdateGroup.class})
 	//회원 가입 시 검증해야 한다면 addgroup, 수정 시 검증해야 한다면 update 둘다 주고)
@@ -43,6 +45,18 @@ public class MemberVO implements UserDetails {
 	
 	//회원 한명이 권한 여러개 가지고 있음
 	private List<RoleVO> vos;
+	//=======================================
+	//OAuth2User , token 정보 저장
+	private Map<String,Object> attributes;
+
+
+	//OAuth2User 오버라이딩 , 결국 attributes의 getter함수임을 짐작 가능 -> 변수 선언하자
+	@Override
+	public Map<String, Object> getAttributes() {
+		
+		return this.attributes;
+	}
+	
 	
 	//비밀번호 확인 변수 추가
 	private String passwordCheck;
@@ -92,7 +106,8 @@ public class MemberVO implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-	
+
+
 	
 	
 
