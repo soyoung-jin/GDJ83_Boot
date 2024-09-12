@@ -17,7 +17,7 @@ public class SecurityLogoutSucessHandler implements LogoutSuccessHandler {
 	@Override
 		public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 				throws IOException, ServletException {
-			// TODO Auto-generated method stub
+		//로그아웃 성공하면 카카오 로그아웃을 진행하겠다는 의미
 			
 		}
 }
