@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 //설정 클래스라는 의미의 어노테이션, xml느낌
 @Configuration
-
 //webMVCConfigure 구현 - 웹 설정에 관련한 인터페이스 오버라이딩 해야할 메서드가 있음
 public class FileConfig implements WebMvcConfigurer {
 	//file라고 시작하는 url이 오면 D:upload(file)를 찾아가게끔 함
